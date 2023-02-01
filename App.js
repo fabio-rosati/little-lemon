@@ -1,12 +1,14 @@
-import { View, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
-
-import OnboardingScreen from "./screens/OnboardingScreen";
+import { StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import RootNavigator from "./navigation/RootNavigator";
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <OnboardingScreen />
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </SafeAreaView>
   );
 }
 

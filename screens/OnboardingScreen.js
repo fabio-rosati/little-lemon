@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Pressable, StyleSheet, TextInput, Alert, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { validateEmail } from '../utils';
 import { validateName } from '../utils';
 
-export default function OnboardingScreen() {
+const OnboardingScreen = ({ navigation }) => {
     const [name, onChangeName] = useState('');
     const [email, onChangeEmail] = useState('');
   
-    // Other solution
+    const updateIsBoarded = async (value) => {
+        try {
+            const boardedJson = JSON.stringify(value)
+            console.log(boardedJson)
+            await AsyncStorage.setItem('ONBOARDED', boardedJson)
+        } catch (error) {
+            console.error(error);
+        }
+      }
+
     const validValues = validateEmail(email) && validateName(name)
   
     const nextScreen = () => {
         onChangeName('')
         onChangeEmail('')
-
+        updateIsBoarded(true)
+        navigation.navigate('Profile')
     //   Platform.OS === 'web'
     //     ? alert('Thanks for subscribing, stay tuned!')
     //     : Alert.alert('', 'Thanks for subscribing, stay tuned!')
@@ -69,8 +80,10 @@ export default function OnboardingScreen() {
                 </Pressable>
             </View>
         </View>
-      );
-}
+    );
+};
+
+export default OnboardingScreen;
 
 const styles = StyleSheet.create({
     container: {
