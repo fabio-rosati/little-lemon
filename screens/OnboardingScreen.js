@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Pressable, StyleSheet, TextInput, Alert, Platform } from 'react-native';
+import { View, Text, Image, Pressable, StyleSheet, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { validateEmail } from '../utils';
 import { validateName } from '../utils';
+import { AuthContext } from "../contexts/AuthContext";
 
 const OnboardingScreen = ({ navigation }) => {
     const [name, onChangeName] = useState('');
     const [email, onChangeEmail] = useState('');
   
+    const { signIn } = React.useContext(AuthContext);
+
     const updateIsBoarded = async (value) => {
         try {
             const boardedJson = JSON.stringify(value)
-            console.log(boardedJson)
             await AsyncStorage.setItem('ONBOARDED', boardedJson)
         } catch (error) {
             console.error(error);
@@ -24,10 +27,12 @@ const OnboardingScreen = ({ navigation }) => {
         onChangeName('')
         onChangeEmail('')
         updateIsBoarded(true)
-        navigation.navigate('Profile')
-    //   Platform.OS === 'web'
-    //     ? alert('Thanks for subscribing, stay tuned!')
-    //     : Alert.alert('', 'Thanks for subscribing, stay tuned!')
+        signIn({ name: name, email: email })
+        // navigation.navigate('Profile', {
+        //     paramName: name,
+        //     paramEmail: email,
+        //   }
+        // );
     };
 
     return (
