@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { validateEmail } from '../utils';
 import { validateName } from '../utils';
 import { AuthContext } from "../contexts/AuthContext";
+import OnboardingStyles from '../styles/OnboardingStyles';
 
 const OnboardingScreen = ({ navigation }) => {
     const [name, onChangeName] = useState('');
@@ -28,41 +29,25 @@ const OnboardingScreen = ({ navigation }) => {
         onChangeEmail('')
         updateIsBoarded(true)
         signIn({ name: name, email: email })
-        // navigation.navigate('Profile', {
-        //     paramName: name,
-        //     paramEmail: email,
-        //   }
-        // );
     };
 
     return (
-        <View style={styles.container}>
-            {/* Header */}
-            <View style={styles.header}>
-                <Image
-                    style={styles.image}
-                    source={require('../assets/little-lemon-logo-and-title.png')}
-                    resizeMode="cover"
-                    accessible={true}
-                    accessibilityLabel={'Little Lemon Logo'}
-                />
-            </View>
-
+        <View style={OnboardingStyles.container}>
             {/* Body */}
-            <View style={styles.body}>
-                <Text style={styles.text1}>Let us get to know you</Text>
+            <View style={OnboardingStyles.body}>
+                <Text style={OnboardingStyles.text1}>Let us get to know you</Text>
 
-                <Text style={styles.text}>First Name</Text>
+                <Text style={OnboardingStyles.text}>First Name</Text>
                 <TextInput
-                    style={styles.inputBox}
+                    style={OnboardingStyles.inputBox}
                     value={name}
                     onChangeText={onChangeName}
                     placeholder={'Type your name'}
                 />
 
-                <Text style={styles.text}>Email</Text>
+                <Text style={OnboardingStyles.text}>Email</Text>
                 <TextInput
-                    style={styles.inputBox}
+                    style={OnboardingStyles.inputBox}
                     value={email}
                     onChangeText={onChangeEmail}
                     placeholder={'Type your email'}
@@ -71,17 +56,17 @@ const OnboardingScreen = ({ navigation }) => {
             </View>
 
             {/* Footer */}
-            <View style={styles.footer}>
+            <View style={OnboardingStyles.footer}>
                 <Pressable 
                     disabled={!validValues}
                     style={
                         validValues 
-                            ? styles.buttonEnabled
-                            : styles.buttonDisabled
+                            ? OnboardingStyles.buttonEnabled
+                            : OnboardingStyles.buttonDisabled
                     }
                     onPress={nextScreen}
                     >
-                    <Text style={styles.buttonText}>Next</Text>
+                    <Text style={OnboardingStyles.buttonText}>Next</Text>
                 </Pressable>
             </View>
         </View>
@@ -89,77 +74,3 @@ const OnboardingScreen = ({ navigation }) => {
 };
 
 export default OnboardingScreen;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    header: {
-        // height: 90,
-        backgroundColor: '#dee3e9',
-        justifyContent: 'center', // Vertical
-        alignItems: 'center', // Horizontal
-        paddingVertical: 10,
-    },
-    body: {
-        flex: 1,
-        paddingHorizontal: 40,
-        paddingVertical: 40,
-        justifyContent: 'center',
-        backgroundColor: '#cbd2d9'
-    },
-    footer: {
-        paddingHorizontal: 40,
-        paddingVertical: 40,
-        backgroundColor: '#f1f4f7',
-    },
-    image: {
-        // width: 200,
-        // height: 200,
-    },
-    text: {
-        fontWeight: '500',
-        fontSize: 20,
-        color: '#344854',
-        textAlign: 'center',
-    },
-    text1: {
-        fontWeight: '500',
-        fontSize: 20,
-        color: '#344854',
-        textAlign: 'center',
-        marginBottom: 50,
-    },
-    buttonEnabled: {
-        justifyContent: 'center',
-        fontSize: 22,
-        padding: 5,
-        backgroundColor: '#cbd2d9',
-        borderRadius: 10,
-    },
-    buttonDisabled: {
-        justifyContent: 'center',
-        fontSize: 22,
-        padding: 5,
-        backgroundColor: '#cbd2d9',
-        borderRadius: 10,
-        opacity: 0.4,
-    },
-    buttonText: {
-        color: '#344854',
-        textAlign: 'center',
-        fontSize: 20,
-    },
-    inputBox: {
-        justifyContent: 'center',
-        borderWidth: 2,
-        padding: 10,
-        marginVertical: 10,
-        fontSize: 20,
-        placeholderTextColor: 'grey',
-        borderRadius: 10,
-        borderColor: '#344854',
-        // backgroundColor: '#EDEFEE',
-    },
-});

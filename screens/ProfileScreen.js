@@ -6,6 +6,7 @@ import { MaskedTextInput } from "react-native-mask-text";
 import * as ImagePicker from 'expo-image-picker';
 
 import { AuthContext } from "../contexts/AuthContext";
+import { profileStyles, avatarStyle, textStyle, checkboxStyle, buttonStyle } from '../styles/ProfileStyles';
 
 export default function ProfileScreen({ route, navigation }) {
     // const { paramName, paramEmail } = route.params != undefined
@@ -14,9 +15,7 @@ export default function ProfileScreen({ route, navigation }) {
 
     const { signOut } = React.useContext(AuthContext);
     const { loginData } = React.useContext(AuthContext);
-
-    console.log("loginData data:")
-    console.log(loginData)
+    const { updateUserData } = React.useContext(AuthContext);
 
     // const [name, setName] = useState(paramName);
     const [name, setName] = useState(loginData.name);
@@ -53,6 +52,11 @@ export default function ProfileScreen({ route, navigation }) {
 
     const saveChanges = () => {
         saveData()
+        updateUserData({
+            image: image, 
+            name: name, 
+            lastName: lastName
+        })
     }
 
     const discardChanges = () => {
@@ -178,16 +182,16 @@ export default function ProfileScreen({ route, navigation }) {
 
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView contentContainerStyle={profileStyles.scrollView}>
 
             {/* Body */}
-            <View style={styles.body}>
+            <View style={profileStyles.body}>
 
                 <Text style={textStyle.h1}>Personal information</Text>
 
                 {/* Avatar */}
                 <Text style={textStyle.h2}>Avatar</Text>
-                <View style={styles.avatarContainer}>
+                <View style={profileStyles.avatarContainer}>
                     <View style={avatarStyle.container}>
                         {!image && 
                             <Text style={avatarStyle.placeholder}>{name.substr(0,1) + lastName.substr(0,1)}</Text>
@@ -195,7 +199,7 @@ export default function ProfileScreen({ route, navigation }) {
                         {image && 
                             <Image
                                 style={avatarStyle.image}
-                                source = {{uri: image}}
+                                source={{uri: image}}
                                 resizeMode="cover"
                             />
                         }
@@ -215,10 +219,10 @@ export default function ProfileScreen({ route, navigation }) {
                 </View>
 
                 {/* Info */}
-                <View style={styles.infoContainer}>
+                <View style={profileStyles.infoContainer}>
                     <Text style={textStyle.h2}>First name</Text>
                     <TextInput
-                        style={styles.textInput}
+                        style={profileStyles.textInput}
                         value={name}
                         onChangeText={setName}
                         placeholder={'Type your name'}
@@ -226,7 +230,7 @@ export default function ProfileScreen({ route, navigation }) {
 
                     <Text style={textStyle.h2}>Last name</Text>
                     <TextInput
-                        style={styles.textInput}
+                        style={profileStyles.textInput}
                         value={lastName}
                         onChangeText={setLastName}
                         placeholder={'Type your last name'}
@@ -234,7 +238,7 @@ export default function ProfileScreen({ route, navigation }) {
 
                     <Text style={textStyle.h2}>Email</Text>
                     <TextInput
-                        style={styles.textInput}
+                        style={profileStyles.textInput}
                         value={email}
                         onChangeText={setEmail}
                         placeholder={'Type your email'}
@@ -243,7 +247,7 @@ export default function ProfileScreen({ route, navigation }) {
 
                     <Text style={textStyle.h2}>Phone number</Text>
                     <MaskedTextInput
-                        style={styles.textInput}
+                        style={profileStyles.textInput}
                         value={phoneNumber}
                         mask="(999) 999-9999"
                         onChangeText={(text, rawText) => {
@@ -259,7 +263,7 @@ export default function ProfileScreen({ route, navigation }) {
                 <Text style={textStyle.h1}>Email notifications</Text>
 
                 {/* Notifications */}
-                <View style={styles.notificationsContainer}>
+                <View style={profileStyles.notificationsContainer}>
                     <View style={checkboxStyle.switch}>
                         <Checkbox
                             style={checkboxStyle.checkbox}
@@ -299,7 +303,7 @@ export default function ProfileScreen({ route, navigation }) {
                 </View>
 
                 {/* Logout button */}
-                <View style={styles.logoutButtonContainer}>
+                <View style={profileStyles.logoutButtonContainer}>
                     <Pressable 
                         style={buttonStyle.yellow}
                         onPress={logout}
@@ -309,7 +313,7 @@ export default function ProfileScreen({ route, navigation }) {
                 </View>
 
                 {/* Discard/Save buttons */}
-                <View style={styles.buttonsContainer}>
+                <View style={profileStyles.buttonsContainer}>
                     <Pressable 
                         style={buttonStyle.white}
                         onPress={discardChanges}
@@ -328,189 +332,3 @@ export default function ProfileScreen({ route, navigation }) {
         </ScrollView>
       );
 }
-
-export function ProfileHeaderTitle() {
-    return (
-        <View style={styles.header}>
-            <Image
-                source={require('../assets/little-lemon-logo-and-title.png')}
-                resizeMode="cover"
-                accessible={true}
-                accessibilityLabel={'Little Lemon Logo'}
-            />
-        </View>
-    );
-}
-
-const styles = StyleSheet.create({
-    // Containers
-    scrollView: {
-        padding: 10,
-        flexDirection: 'column',
-        backgroundColor: '#ffffff',
-    },
-    header: {
-        justifyContent: 'center', // Vertical
-        alignItems: 'center', // Horizontal
-        paddingVertical: 15,
-    },
-    body: {
-        paddingHorizontal: 20,
-        paddingVertical: 30,
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: '#344854',
-    },
-    avatarContainer: {
-        flexDirection: 'row',
-        // justifyContent: 'flex-start',
-        // justifyContent: 'flex-end',
-        // justifyContent: 'center',
-        justifyContent: 'space-between',
-        // justifyContent: 'space-around',
-        // justifyContent: 'space-evenly',
-        alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 15,
-    },
-    infoContainer: {
-        flexDirection: 'column',
-        // alignItems: 'stretch',
-        // alignItems: 'flex-start',
-    },
-    notificationsContainer: {
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        // alignItems: 'center',
-    },
-    buttonsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    logoutButtonContainer: {
-        marginVertical: 30,
-    },
-
-    // TextInput
-    textInput: {
-        justifyContent: 'center',
-        borderWidth: 2,
-        padding: 10,
-        marginTop: 10,
-        marginBottom: 30,
-        fontSize: 20,
-        placeholderTextColor: 'grey',
-        borderRadius: 10,
-        borderColor: '#344854',
-        // backgroundColor: '#EDEFEE',
-    },
-});
-
-const avatarStyle = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 100,
-        height: 100,
-        borderRadius: 100 / 2,
-        overflow: "hidden",
-        backgroundColor: '#62d6c4'
-    },
-    image: {
-        width: 100,
-        height: 100,
-        // borderRadius: 100 / 2,
-        // overflow: "hidden",
-        // borderWidth: 1,
-        // borderColor: '#344854',
-    },
-    placeholder: {
-        textAlign: 'center',
-        fontWeight: '700',
-        fontSize: 32,
-        color: '#ffffff',
-    },
-});
-
-const textStyle = StyleSheet.create({
-    h1: {
-        alignSelf: 'flex-start',
-        fontWeight: '700',
-        fontSize: 18,
-        color: '#344854',
-        textAlign: 'center',
-        marginBottom: 15,
-    },
-    h2: {
-        alignSelf: 'flex-start',
-        fontWeight: '300',
-        fontSize: 12,
-        color: '#344854',
-        textAlign: 'center',
-    },
-});
-
-const checkboxStyle = StyleSheet.create({
-    switch: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        paddingVertical: 16,
-        alignItems: 'center',
-    },
-    checkbox: {
-        
-    },
-    text: {
-        fontWeight: '500',
-        fontSize: 16,
-        color: '#344854',
-        textAlign: 'center',
-        marginStart: 10,
-    },
-});
-
-const buttonStyle = StyleSheet.create({
-    green: {
-        justifyContent: 'center',
-        fontSize: 22,
-        padding: 10,
-        backgroundColor: '#495e57',
-        borderRadius: 10,
-        borderColor: '#495e57',
-        borderWidth: 2,
-    },
-    textForGreen: {
-        color: '#ffffff',
-        textAlign: 'center',
-        fontSize: 18,
-    },
-
-    white: {
-        justifyContent: 'center',
-        fontSize: 22,
-        padding: 10,
-        backgroundColor: '#ffffff',
-        borderRadius: 10,
-        borderColor: '#495e57',
-        borderWidth: 2,
-    },
-    textForWhite: {
-        color: '#495e57',
-        textAlign: 'center',
-        fontSize: 18,
-    },
-
-    yellow: {
-        justifyContent: 'center',
-        fontSize: 22,
-        padding: 10,
-        backgroundColor: '#f4ce14',
-        borderRadius: 10,
-    },
-    textForYellow: {
-        fontWeight: '700',
-        color: '##2f2804',
-        textAlign: 'center',
-        fontSize: 18,
-    },
-});
