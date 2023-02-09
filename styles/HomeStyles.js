@@ -47,6 +47,9 @@ const HomeStyles = StyleSheet.create({
             fontWeight: '700',
             fontSize: 18,
         },
+        selected: {
+            color: 'black',
+        },
         dishName: {
             fontWeight: '600',
             fontSize: 20,
@@ -66,7 +69,6 @@ const HomeStyles = StyleSheet.create({
     },
     image: {
         header: {
-            flex: 2,
             width: '100%',
             height: '100%',
             aspectRatio: 1,
@@ -85,13 +87,24 @@ const HomeStyles = StyleSheet.create({
     },
     button: {
         filter: {
+            alignItems: 'center',
             justifyContent: 'center',
             padding: 10,
             marginEnd: 25,
             backgroundColor: '#edefee',
             borderRadius: 20,
-        }
+        },
+        selected: {
+            backgroundColor: '#EE9972',
+        },
+
     },
+    searchBar: {
+        marginBottom: 15,
+        backgroundColor: '#edefee',
+        shadowRadius: 0,
+        shadowOpacity: 0,
+    }
 });
 
 export default HomeStyles;

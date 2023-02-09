@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { View, ScrollView, SafeAreaView, Text, Image, Pressable, FlatList, ActivityIndicator } from 'react-native';
+import { useUpdateEffect } from '../utils';
+import { View, SafeAreaView, Text, Image, FlatList, ActivityIndicator } from 'react-native';
+import { Searchbar } from 'react-native-paper';
 import CachedImage from 'expo-cached-image';
-import uuid from 'react-native-uuid';
+import debounce from 'lodash.debounce';
 
 import HomeStyles from '../styles/HomeStyles';
+import Filters from '../components/Filters';
 import {
     createTable,
     getMenuItems,
@@ -11,6 +14,7 @@ import {
     filterByQueryAndCategories,
   } from '../database/database';
 
+const sections = ['starters', 'mains', 'desserts', 'drinks']
 const API_URL =
   'https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/capstone.json';
 
@@ -33,6 +37,11 @@ const API_URL =
 
 const HomeScreen = ({ navigation }) => {
     const [menu, setMenu] = React.useState([]);
+    const [searchBarText, setSearchBarText] = React.useState('');
+    const [query, setQuery] = React.useState('');
+    const [filterSelections, setFilterSelections] = React.useState(
+      sections.map(() => false)
+    );
 
     React.useEffect(() => {
         const bootstrapAsync = async () => {
@@ -51,14 +60,36 @@ const HomeScreen = ({ navigation }) => {
 
                 // Update menu state
                 setMenu(menuItems)
-            } catch (error) {
-                console.error(error);
-                return [];
+            } catch (e) {
+                console.error(e);
             }
         }
 
         bootstrapAsync();
     }, []);
+
+    useUpdateEffect(() => {
+        (async () => {
+          const activeCategories = sections.filter((s, i) => {
+            // If all filters are deselected, all categories are active
+            if (filterSelections.every((item) => item === false)) {
+              return true;
+            }
+            return filterSelections[i];
+          });
+
+          try {
+            const menuItems = await filterByQueryAndCategories(
+                query,
+                activeCategories
+            );
+
+            setMenu(menuItems);
+          } catch (e) {
+            console.error(e);
+          }
+        })();
+    }, [filterSelections, query]);
 
     const fetchMenu = async() => {      
         // {
@@ -71,11 +102,12 @@ const HomeScreen = ({ navigation }) => {
         //         "category": "starters"
         //       },
         try {
+          let uuid = 1
           const response = await fetch(API_URL);
-          const json = await response.json();
+          const json =  await response.json();
           return json.menu.map(item => ({
               ...item,
-              id: uuid.v4()
+              id: uuid++
             }))
         } catch (error) {
           console.error(error);
@@ -83,6 +115,25 @@ const HomeScreen = ({ navigation }) => {
         }
       }
 
+    const lookup = React.useCallback((q) => {
+        setQuery(q);
+    }, []);
+    
+    const debouncedLookup = React.useMemo(() => debounce(lookup, 500), [lookup]);
+
+    const handleSearchChange = (text) => {
+        setSearchBarText(text);
+        debouncedLookup(text);
+    };
+
+    const handleFiltersChange = async (index) => {
+        const arrayCopy = [...filterSelections];
+        arrayCopy[index] = !filterSelections[index];
+        setFilterSelections(arrayCopy);
+    };
+
+    // WARNING: Rendering this component causes the keyboard to
+    // lose focus after every type. Copy-paste this in the render.
     const Header = () => {
         return(
             <View style={HomeStyles.container.header}>
@@ -91,55 +142,28 @@ const HomeScreen = ({ navigation }) => {
                     <View style={{flex: 3}}>
                         <Text style={HomeStyles.text.city}>Chicago</Text>
                         <Text style={HomeStyles.text.description}>We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</Text>
-                        <Image
+                        {/* <Image
                             style={HomeStyles.image.search}
                             source={require('../assets/search.png')}
                             resizeMode='contain'
-                        />
+                        /> */}
                     </View>
                     <Image
-                        style={HomeStyles.image.header}
+                        style={[HomeStyles.image.header, {flex: 2}]}
                         source={require('../img/upperpanelimage.jpg')}
                         resizeMode='contain'
                     />
                 </View>
-            </View>
-        )
-    }
-
-    const Filters = () => {
-        return(
-            <View style={HomeStyles.container.filters}>
-                <Text style={HomeStyles.text.filterTitle}>ORDER FOR DELIVERY!</Text>
-                <ScrollView 
-                    style={{paddingTop: 15}}
-                    horizontal={true} 
-                    showsHorizontalScrollIndicator={false}>
-                    <Pressable 
-                        style={HomeStyles.button.filter}
-                        // onPress={}
-                        >
-                        <Text style={HomeStyles.text.filter}>Starters</Text>
-                    </Pressable>
-                    <Pressable 
-                        style={HomeStyles.button.filter}
-                        // onPress={}
-                        >
-                        <Text style={HomeStyles.text.filter}>Mains</Text>
-                    </Pressable>
-                    <Pressable 
-                        style={HomeStyles.button.filter}
-                        // onPress={}
-                        >
-                        <Text style={HomeStyles.text.filter}>Desserts</Text>
-                    </Pressable>
-                    <Pressable 
-                        style={HomeStyles.button.filter}
-                        // onPress={}
-                        >
-                        <Text style={HomeStyles.text.filter}>Drinks</Text>
-                    </Pressable>
-                </ScrollView>
+                <Searchbar
+                    style={HomeStyles.searchBar}
+                    placeholder="Search"
+                    placeholderTextColor="black"
+                    onChangeText={handleSearchChange}
+                    value={searchBarText}
+                    iconColor="black"
+                    inputStyle={{ color: 'black' }}
+                    elevation={0}
+                />
             </View>
         )
     }
@@ -160,15 +184,13 @@ const HomeScreen = ({ navigation }) => {
                 cacheKey={`${item.id}-thumb`} // (required) -- key to store image locally
                 placeholderContent={( // (optional) -- shows while the image is loading
                     <ActivityIndicator // can be any react-native tag
-                        color={
-                            'grey'
-                        }
+                        color={'grey'}
                         size="small"
                         style={{
                             flex: 1,
                             justifyContent: "center",
                         }}
-                        />
+                    />
                 )} 
                 resizeMode="cover" // pass-through to <Image /> tag 
                 style={              // pass-through to <Image /> tag 
@@ -195,19 +217,55 @@ const HomeScreen = ({ navigation }) => {
                     price={'$12.99'}
                     image={require('../assets/search.png')}
                 /> */}
-
                 <FlatList
                     ListHeaderComponent={
                         <>
-                        <Header />
-                        <Filters />
+                        {/* <Header /> */} 
+                        <View style={HomeStyles.container.header}>
+                            <Text style={HomeStyles.text.title}>Little Lemon</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={{flex: 3}}>
+                                    <Text style={HomeStyles.text.city}>Chicago</Text>
+                                    <Text style={HomeStyles.text.description}>We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</Text>
+                                    {/* <Image
+                                        style={HomeStyles.image.search}
+                                        source={require('../assets/search.png')}
+                                        resizeMode='contain'
+                                    /> */}
+                                </View>
+                                <Image
+                                    style={[HomeStyles.image.header, {flex: 2}]}
+                                    source={require('../img/upperpanelimage.jpg')}
+                                    resizeMode='contain'
+                                />
+                            </View>
+                            <Searchbar
+                                style={HomeStyles.searchBar}
+                                placeholder="Search"
+                                placeholderTextColor="black"
+                                onChangeText={handleSearchChange}
+                                value={searchBarText}
+                                iconColor="black"
+                                inputStyle={{ color: 'black' }}
+                                elevation={0}
+                            />
+                        </View>
+
+                        {/* Filters */}
+                        <Filters
+                            selections={filterSelections}
+                            onChange={handleFiltersChange}
+                            sections={sections}
+                        />
+
+                        {/* Separator */}
                         <View style={{height: 2, backgroundColor: '#cccccc', marginHorizontal: 15}} />
                         </>
                     }
                     data={menu}
                     renderItem={renderMenuItem}
                     ItemSeparatorComponent={Seperator}
-                    keyExtractor={item => item.name}
+                    keyExtractor={item => item.id}
                 />
 
         </SafeAreaView >
