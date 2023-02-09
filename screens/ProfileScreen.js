@@ -147,7 +147,6 @@ export default function ProfileScreen({ route, navigation }) {
                 ['EMAIL', email],
                 ['PHONE-NUMBER', phoneNumber],
                 ['IMAGE', JSON.stringify(image)],
-                ['ONBOARDED', JSON.stringify(false)]
             ])
 
             await AsyncStorage.multiSet(Object.entries(notifications).map((entry) => {

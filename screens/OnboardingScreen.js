@@ -1,75 +1,59 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Pressable, StyleSheet, TextInput } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, ScrollView, Text, Pressable, TextInput } from 'react-native';
 
 import { validateEmail } from '../utils';
 import { validateName } from '../utils';
 import { AuthContext } from "../contexts/AuthContext";
 import OnboardingStyles from '../styles/OnboardingStyles';
+import Hero from '../components/Hero';
 
 const OnboardingScreen = ({ navigation }) => {
-    const [name, onChangeName] = useState('');
-    const [email, onChangeEmail] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
   
     const { signIn } = React.useContext(AuthContext);
-
-    const updateIsBoarded = async (value) => {
-        try {
-            const boardedJson = JSON.stringify(value)
-            await AsyncStorage.setItem('ONBOARDED', boardedJson)
-        } catch (error) {
-            console.error(error);
-        }
-      }
 
     const validValues = validateEmail(email) && validateName(name)
   
     const nextScreen = () => {
-        onChangeName('')
-        onChangeEmail('')
-        updateIsBoarded(true)
         signIn({ name: name, email: email })
     };
 
     return (
-        <View style={OnboardingStyles.container}>
-            {/* Body */}
+        <ScrollView style={OnboardingStyles.container}>
+            <Hero />
             <View style={OnboardingStyles.body}>
-                <Text style={OnboardingStyles.text1}>Let us get to know you</Text>
-
-                <Text style={OnboardingStyles.text}>First Name</Text>
+                <Text style={OnboardingStyles.text}>Name *</Text>
                 <TextInput
                     style={OnboardingStyles.inputBox}
                     value={name}
-                    onChangeText={onChangeName}
+                    onChangeText={setName}
                     placeholder={'Type your name'}
                 />
 
-                <Text style={OnboardingStyles.text}>Email</Text>
+                <Text style={OnboardingStyles.text}>Email *</Text>
                 <TextInput
                     style={OnboardingStyles.inputBox}
                     value={email}
-                    onChangeText={onChangeEmail}
+                    onChangeText={setEmail}
                     placeholder={'Type your email'}
                     keyboardType={'email-address'}
                 />
-            </View>
-
-            {/* Footer */}
-            <View style={OnboardingStyles.footer}>
                 <Pressable 
                     disabled={!validValues}
-                    style={
-                        validValues 
-                            ? OnboardingStyles.buttonEnabled
-                            : OnboardingStyles.buttonDisabled
-                    }
+                    style={[
+                        OnboardingStyles.button,
+                        validValues ? {backgroundColor: '#495e57'} : {opacity: 0.4}
+                    ]}
                     onPress={nextScreen}
                     >
-                    <Text style={OnboardingStyles.buttonText}>Next</Text>
+                    <Text style={[
+                        OnboardingStyles.buttonText,
+                        validValues && {color: '#edefee'}
+                    ]}>Next</Text>
                 </Pressable>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 

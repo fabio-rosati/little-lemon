@@ -4,31 +4,26 @@ const OnboardingStyles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
+        backgroundColor: 'white',
     },
-    header: {
-        // height: 90,
-        backgroundColor: '#dee3e9',
-        justifyContent: 'center', // Vertical
-        alignItems: 'center', // Horizontal
-        paddingVertical: 10,
-    },
+    // header: {
+    //     backgroundColor: 'white',
+    //     justifyContent: 'center', // Vertical
+    //     alignItems: 'center', // Horizontal
+    //     paddingVertical: 10,
+    // },
     body: {
-        flex: 1,
-        paddingHorizontal: 40,
-        paddingVertical: 40,
+        paddingHorizontal: 15,
+        paddingVertical: 15,
         justifyContent: 'center',
-        backgroundColor: '#cbd2d9'
+        backgroundColor: 'white',
     },
-    footer: {
-        paddingHorizontal: 40,
-        paddingVertical: 40,
-        backgroundColor: '#f1f4f7',
-    },
-    image: {
-        // width: 200,
-        // height: 200,
-    },
+    // image: {
+    //     // width: 200,
+    //     // height: 200,
+    // },
     text: {
+        alignSelf: 'flex-start',
         fontWeight: '500',
         fontSize: 20,
         color: '#344854',
@@ -41,25 +36,19 @@ const OnboardingStyles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 50,
     },
-    buttonEnabled: {
+    button: {
         justifyContent: 'center',
         fontSize: 22,
         padding: 5,
         backgroundColor: '#cbd2d9',
         borderRadius: 10,
-    },
-    buttonDisabled: {
-        justifyContent: 'center',
-        fontSize: 22,
-        padding: 5,
-        backgroundColor: '#cbd2d9',
-        borderRadius: 10,
-        opacity: 0.4,
+        marginVertical: 10,
     },
     buttonText: {
         color: '#344854',
         textAlign: 'center',
         fontSize: 20,
+        fontWeight: '500',
     },
     inputBox: {
         justifyContent: 'center',

@@ -15,7 +15,6 @@ import HomeScreen from '../screens/HomeScreen';
 
 import { AuthContext } from "../contexts/AuthContext";
 import { profileStyles, avatarStyle } from '../styles/ProfileStyles';
-import OnboardingStyles from '../styles/OnboardingStyles';
 
 const Stack = createNativeStackNavigator();
 

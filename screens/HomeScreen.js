@@ -5,7 +5,8 @@ import { Searchbar } from 'react-native-paper';
 import CachedImage from 'expo-cached-image';
 import debounce from 'lodash.debounce';
 
-import HomeStyles from '../styles/HomeStyles';
+import Hero from '../components/Hero';
+import { HomeStyles, SearchBarStyle } from '../styles/HomeStyles';
 import Filters from '../components/Filters';
 import {
     createTable,
@@ -17,23 +18,6 @@ import {
 const sections = ['starters', 'mains', 'desserts', 'drinks']
 const API_URL =
   'https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/capstone.json';
-
-// const MenuItemComponent = (item) => {
-//     return (
-//         <View style={{flexDirection: 'row'}}>
-//             <View style={{flex: 4, marginEnd: 15}}>
-//                 <Text style={HomeStyles.text.dishName}>{item.name}</Text>
-//                 <Text style={HomeStyles.text.dishDescription} numberOfLines={2}>{item.description}</Text>
-//                 <Text style={HomeStyles.text.dishPrice}>{item.price}</Text>
-//             </View>
-//             <Image
-//                 style={HomeStyles.image.dish}
-//                 source={item.image}
-//                 resizeMode='contain'
-//             />
-//         </View>
-//     )
-// }
 
 const HomeScreen = ({ navigation }) => {
     const [menu, setMenu] = React.useState([]);
@@ -132,42 +116,6 @@ const HomeScreen = ({ navigation }) => {
         setFilterSelections(arrayCopy);
     };
 
-    // WARNING: Rendering this component causes the keyboard to
-    // lose focus after every type. Copy-paste this in the render.
-    const Header = () => {
-        return(
-            <View style={HomeStyles.container.header}>
-                <Text style={HomeStyles.text.title}>Little Lemon</Text>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{flex: 3}}>
-                        <Text style={HomeStyles.text.city}>Chicago</Text>
-                        <Text style={HomeStyles.text.description}>We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</Text>
-                        {/* <Image
-                            style={HomeStyles.image.search}
-                            source={require('../assets/search.png')}
-                            resizeMode='contain'
-                        /> */}
-                    </View>
-                    <Image
-                        style={[HomeStyles.image.header, {flex: 2}]}
-                        source={require('../img/upperpanelimage.jpg')}
-                        resizeMode='contain'
-                    />
-                </View>
-                <Searchbar
-                    style={HomeStyles.searchBar}
-                    placeholder="Search"
-                    placeholderTextColor="black"
-                    onChangeText={handleSearchChange}
-                    value={searchBarText}
-                    iconColor="black"
-                    inputStyle={{ color: 'black' }}
-                    elevation={0}
-                />
-            </View>
-        )
-    }
-
     const renderMenuItem = ({ item }) => (
         <View style={{flexDirection: 'row', padding: 15}}>
             <View style={{flex: 4, marginEnd: 15}}>
@@ -211,62 +159,44 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView  style={HomeStyles.container.screen}>
-                {/* <MenuItemComponent
-                    name={'Greek Salad'}
-                    description={'The famous greek salad of crispy lettuce, peppers, olives and our Chicago sauce'}
-                    price={'$12.99'}
-                    image={require('../assets/search.png')}
-                /> */}
-                <FlatList
-                    ListHeaderComponent={
-                        <>
-                        {/* <Header /> */} 
-                        <View style={HomeStyles.container.header}>
-                            <Text style={HomeStyles.text.title}>Little Lemon</Text>
-                            <View style={{flexDirection: 'row'}}>
-                                <View style={{flex: 3}}>
-                                    <Text style={HomeStyles.text.city}>Chicago</Text>
-                                    <Text style={HomeStyles.text.description}>We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</Text>
-                                    {/* <Image
-                                        style={HomeStyles.image.search}
-                                        source={require('../assets/search.png')}
-                                        resizeMode='contain'
-                                    /> */}
-                                </View>
-                                <Image
-                                    style={[HomeStyles.image.header, {flex: 2}]}
-                                    source={require('../img/upperpanelimage.jpg')}
-                                    resizeMode='contain'
-                                />
-                            </View>
-                            <Searchbar
-                                style={HomeStyles.searchBar}
-                                placeholder="Search"
-                                placeholderTextColor="black"
-                                onChangeText={handleSearchChange}
-                                value={searchBarText}
-                                iconColor="black"
-                                inputStyle={{ color: 'black' }}
-                                elevation={0}
-                            />
-                        </View>
+            <FlatList
+                ListHeaderComponent={
+                    <>
+                    {/* Hero */} 
+                    <Hero />
 
-                        {/* Filters */}
-                        <Filters
-                            selections={filterSelections}
-                            onChange={handleFiltersChange}
-                            sections={sections}
+                    {/* Search bar */}
+                    {/* WARNING: Keep the search bar here to avoid rendering issues. Rendering it as
+                    a fat arrow function would cause the keyboard to lose focus after each insertion. */}
+                    <View style={[SearchBarStyle.container, {paddingTop: 0}]} >
+                        <Searchbar
+                            style={SearchBarStyle.searchBar}
+                            placeholder="Search"
+                            placeholderTextColor="black"
+                            onChangeText={handleSearchChange}
+                            value={searchBarText}
+                            iconColor="black"
+                            inputStyle={{ color: 'black' }}
+                            elevation={0}
                         />
+                    </View>
 
-                        {/* Separator */}
-                        <View style={{height: 2, backgroundColor: '#cccccc', marginHorizontal: 15}} />
-                        </>
-                    }
-                    data={menu}
-                    renderItem={renderMenuItem}
-                    ItemSeparatorComponent={Seperator}
-                    keyExtractor={item => item.id}
-                />
+                    {/* Filters */}
+                    <Filters
+                        selections={filterSelections}
+                        onChange={handleFiltersChange}
+                        sections={sections}
+                    />
+
+                    {/* Separator */}
+                    <View style={{height: 2, backgroundColor: '#cccccc', marginHorizontal: 15}} />
+                    </>
+                }
+                data={menu}
+                renderItem={renderMenuItem}
+                ItemSeparatorComponent={Seperator}
+                keyExtractor={item => item.id}
+            />
 
         </SafeAreaView >
     );

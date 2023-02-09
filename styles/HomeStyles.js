@@ -6,38 +6,12 @@ const HomeStyles = StyleSheet.create({
             backgroundColor: 'white',
             flex: 1,
         },
-        header: {
-            backgroundColor: '#495e57',
-            padding: 15,
-        },
         filters: {
             paddingVertical: 30,
             paddingHorizontal: 15,
         },
     },
     text: {
-        title: {
-            alignSelf: 'flex-start',
-            fontWeight: '500',
-            fontSize: 50,
-            color: '#f4ce14',
-        },
-        city: {
-            alignSelf: 'flex-start',
-            fontWeight: '400',
-            fontSize: 30,
-            color: '#edefee',
-        },
-        description: {
-            alignSelf: 'flex-start',
-            fontWeight: '300',
-            fontSize: 18,
-            color: '#edefee',
-            textAlign: 'left',
-            marginTop: 20,
-            marginBottom: 20,
-            marginEnd: 15,
-        },
         filterTitle: {
             fontWeight: '700',
             fontSize: 20,
@@ -68,13 +42,6 @@ const HomeStyles = StyleSheet.create({
         
     },
     image: {
-        header: {
-            width: '100%',
-            height: '100%',
-            aspectRatio: 1,
-            borderRadius: 15,
-            marginTop: 20,
-        },
         search: {
             width: 60,
             height: 60,
@@ -99,12 +66,59 @@ const HomeStyles = StyleSheet.create({
         },
 
     },
+});
+
+const HeroStyle = StyleSheet.create({
+    container: {
+        backgroundColor: '#495e57',
+        padding: 15,
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+        aspectRatio: 1,
+        borderRadius: 15,
+        marginTop: 20,
+    },
+    title: {
+        includeFontPadding: false,
+        alignSelf: 'flex-start',
+        fontWeight: '500',
+        fontSize: 50,
+        color: '#f4ce14',
+    },
+    city: {
+        alignSelf: 'flex-start',
+        fontWeight: '400',
+        fontSize: 30,
+        color: '#edefee',
+    },
+    description: {
+        alignSelf: 'flex-start',
+        fontWeight: '300',
+        fontSize: 18,
+        color: '#edefee',
+        textAlign: 'left',
+        marginTop: 20,
+        // marginBottom: 20,
+        marginEnd: 15,
+    },
+});
+
+const SearchBarStyle = StyleSheet.create({
+    container: {
+        backgroundColor: '#495e57',
+        padding: 15,
+    },
     searchBar: {
-        marginBottom: 15,
         backgroundColor: '#edefee',
         shadowRadius: 0,
         shadowOpacity: 0,
     }
 });
 
-export default HomeStyles;
+export {
+    HomeStyles,
+    HeroStyle,
+    SearchBarStyle,
+}

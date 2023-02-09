@@ -1,5 +1,5 @@
 import { View, ScrollView, Pressable, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import HomeStyles from '../styles/HomeStyles';
+import { HomeStyles } from '../styles/HomeStyles';
 import { captFirstLetter } from '../utils';
 
 const Filters = ({ onChange, selections, sections }) => {

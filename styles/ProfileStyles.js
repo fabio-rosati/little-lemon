@@ -92,7 +92,7 @@ const textStyle = StyleSheet.create({
     h1: {
         alignSelf: 'flex-start',
         fontWeight: '700',
-        fontSize: 18,
+        fontSize: 20,
         color: '#344854',
         textAlign: 'center',
         marginBottom: 15,
@@ -100,7 +100,7 @@ const textStyle = StyleSheet.create({
     h2: {
         alignSelf: 'flex-start',
         fontWeight: '300',
-        fontSize: 12,
+        fontSize: 16,
         color: '#344854',
         textAlign: 'center',
     },
