@@ -7,9 +7,10 @@ export const validateEmail = (email) => {
   };
   
 export const validateName = (name) => {
-  return name.match(
-    /^[a-zA-Zà-ùÀ-Ú\s+]+$/g
-  );
+  return name !== ""
+  // name.match(
+  //   /^[a-zA-Zà-ùÀ-Ú\s+]+$/g
+  // );
 };
 
 export const escape = (str) => {
