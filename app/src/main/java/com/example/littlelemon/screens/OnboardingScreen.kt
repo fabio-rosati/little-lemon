@@ -5,6 +5,8 @@ import com.example.littlelemon.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -22,11 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.littlelemon.data.UserStore
-import com.example.littlelemon.data.UserStore.Companion.EMAIL_KEY
-import com.example.littlelemon.data.UserStore.Companion.FIRST_NAME_KEY
-import com.example.littlelemon.data.UserStore.Companion.LAST_NAME_KEY
-import com.example.littlelemon.data.UserStore.Companion.USER_TOKEN_KEY
+import com.example.littlelemon.data.DataStore
+import com.example.littlelemon.data.DataStore.Companion.EMAIL_KEY
+import com.example.littlelemon.data.DataStore.Companion.FIRST_NAME_KEY
+import com.example.littlelemon.data.DataStore.Companion.LAST_NAME_KEY
+import com.example.littlelemon.data.DataStore.Companion.USER_TOKEN_KEY
 import com.example.littlelemon.navigation.Home
 import com.example.littlelemon.ui.theme.LittleLemonColor
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +37,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(navController: NavHostController) {
-    Column {
+    Column(modifier = Modifier
+        .verticalScroll(rememberScrollState())
+    ) {
         Header()
         Hero()
         Body(navController)
@@ -89,7 +93,7 @@ fun Hero() {
 @Composable
 fun Body(navController: NavHostController) {
     val context = LocalContext.current
-    val store = UserStore(context)
+    val store = DataStore(context)
 
     var firstName by remember {
         mutableStateOf(TextFieldValue(""))
@@ -107,13 +111,13 @@ fun Body(navController: NavHostController) {
         && email.text.isNotBlank()
 
     Column(modifier = Modifier.padding(10.dp)) {
-        Text(
-            text = "Personal information",
-            color = Color(0xFF495E57),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(vertical = 50.dp),
-        )
+//        Text(
+//            text = "Personal information",
+//            color = Color(0xFF495E57),
+//            fontSize = 18.sp,
+//            fontWeight = FontWeight.SemiBold,
+//            modifier = Modifier.padding(vertical = 50.dp),
+//        )
 
         Text(
             text = "First name",
