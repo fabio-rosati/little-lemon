@@ -2,20 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- TODO Network 0: Add internet permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- TODO Hilt 2: Add the application name -->
     <application
+        android:name=".presentation.BaseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".LittleLemonApp"
         android:supportsRtl="true"
         android:theme="@style/Theme.LittleLemon"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LittleLemon">

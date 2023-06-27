@@ -1,17 +1,19 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.plugin.serialization'
+
+    // TODO Hilt 0: Add dependencies
+    id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
 
 android {
-    namespace 'com.example.littlelemon'
+    namespace 'com.fabiorosati.littlelemon'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.littlelemon"
+        applicationId "com.fabiorosati.littlelemon"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -74,6 +76,7 @@ dependencies {
     implementation 'androidx.datastore:datastore-preferences-rxjava3:1.0.0'
 
     // Database
+    // TODO Database 0 (Room): Add dependencies
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3'
     implementation 'androidx.room:room-runtime:2.4.3'
     kapt 'androidx.room:room-compiler:2.4.3'
@@ -81,19 +84,22 @@ dependencies {
     // Live data
     implementation 'androidx.compose.runtime:runtime-livedata:1.3.2'
 
-//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
-
     // Network
     implementation 'io.ktor:ktor-client-android:2.1.3'
     implementation "io.ktor:ktor-client-content-negotiation:2.1.3"
     implementation "io.ktor:ktor-serialization-kotlinx-json:2.1.3"
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3'
+    // TODO Network 0 (Retrofit): Add dependencies
+    def retrofit = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
 
-    // Dagger Hilt
-    implementation "com.google.dagger:hilt-android:$dagger_version"
-    kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
-    implementation "androidx.hilt:hilt-navigation-compose:$hilt_version"
+    // TODO Hilt 0: Add dependencies
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_compose_version"
+    def hilt_lifecycle_viewmodel = "1.0.0-alpha03"
+    kapt "androidx.hilt:hilt-compiler:$hilt_lifecycle_viewmodel"
 
     // Glide image
     implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
