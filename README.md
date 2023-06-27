@@ -19,11 +19,12 @@ This is a multiscreen app designed to fetch and display a restaurant menu.
 | Tech Stack                                                                               | High-level Implementation Description            |
 |------------------------------------------------------------------------------------------|--------------------------------------------------|
 | [Jetpack Compose](https://developer.android.com/jetpack/compose)                         | Implement reactive UI using composable functions | 
-| [MVVM](https://medium.com/swlh/understanding-mvvm-architecture-in-android-aa66f7e1a70b)  | Model-View-ViewModel design pattern              |
+| [MVVM](https://medium.com/swlh/understanding-mvvm-architecture-in-android-aa66f7e1a70b)  | Structure the app with a design pattern          |
+| [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android)  | Inject dependency                                |
 | [Retrofit](https://square.github.io/retrofit/)                                           | Fetch the menu data from the internet            |
 | [Room Database](https://developer.android.com/training/data-storage/room)                | Cache the menu data in a local database          |
-| [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)        | Store user data                                  |
-| [GlideImage](https://bumptech.github.io/glide/)                                                  | Load images from URL                             |
+| [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)        | Store the user data                              |
+| [GlideImage](https://bumptech.github.io/glide/)                                          | Load images from URL                             |
 | [Compose Navigation](https://developer.android.com/jetpack/compose/navigation)           | Navigate to different screens in the app         |
 | [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)                       | Implement asynchronous flow in the app           |
 
