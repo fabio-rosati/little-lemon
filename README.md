@@ -1,5 +1,5 @@
 # Little Lemon menu app
-Capstone project for the [Meta Android Developer Professional Certificate](https://coursera.org/share/f68a182f6630fec1aed522ba99ea63c3)
+Capstone project for the [Meta Android Developer Professional Certificate](https://coursera.org/share/f68a182f6630fec1aed522ba99ea63c3).
 This version of the app has been improved with more features.
 
 ## Description
@@ -7,6 +7,7 @@ This is a multiscreen app designed to fetch and display a restaurant menu.
 - The user is welcomed with a (fake) login screen. The user data is asked once and persists upon app relaunch.
 - The menu screen shows all the dishes and allows to filter by category and text search. The menu data is fetched once from the internet and stored in a local database.
 - The user can log out clearing all data.
+- Push notifications can be received and displayed.
 
 ## Screenshots
 <p float="left">
@@ -27,6 +28,7 @@ This is a multiscreen app designed to fetch and display a restaurant menu.
 | [GlideImage](https://bumptech.github.io/glide/)                                          | Load images from URL                             |
 | [Compose Navigation](https://developer.android.com/jetpack/compose/navigation)           | Navigate to different screens in the app         |
 | [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)                       | Implement asynchronous flow in the app           |
+| [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging?hl=en)       | Receive and display push notifications           |
 
 ## Requirements
 - Android Studio Flamingo or later

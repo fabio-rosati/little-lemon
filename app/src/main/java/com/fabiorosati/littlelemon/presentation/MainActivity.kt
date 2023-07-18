@@ -11,7 +11,10 @@ import androidx.compose.ui.Modifier
 import com.fabiorosati.littlelemon.navigation.Navigation
 import com.fabiorosati.littlelemon.presentation.ui.home.MenuViewModel
 import com.fabiorosati.littlelemon.presentation.ui.theme.LittleLemonTheme
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+
+const val TOPIC = "/topics/myTopic2"
 
 // TODO Hilt 5: Set the entry point
 @AndroidEntryPoint
@@ -24,6 +27,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // TODO Push notifications 2: Subscribe to a topic
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 
         setContent {
             LittleLemonTheme {

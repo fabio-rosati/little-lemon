@@ -5,6 +5,9 @@
     <!-- TODO Network 0: Add internet permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- TODO Push Notifications 0: Add message permissions -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
     <!-- TODO Hilt 2: Add the application name -->
     <application
         android:name=".presentation.BaseApplication"
@@ -27,6 +30,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- TODO Push Notifications 1: Create the service -->
+        <service
+            android:name=".firebase.FirebaseService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
